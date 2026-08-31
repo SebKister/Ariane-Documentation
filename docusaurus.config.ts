@@ -87,6 +87,14 @@ const config: Config = {
           label: 'User Manual',
         },
         {
+          // Generated at deploy time into build/pdf/, so it does not exist during
+          // `npm run build`. Linked by absolute URL so onBrokenLinks: 'throw'
+          // does not fail the build over a file the build itself cannot produce.
+          href: 'https://manuals.arianesline.com/ariane/pdf/Ariane-UserManual-latest.pdf',
+          position: 'right',
+          label: 'PDF',
+        },
+        {
           href: 'https://www.arianesline.com/ariane/',
           position: 'right',
           label: "Ariane's Line",
@@ -102,6 +110,10 @@ const config: Config = {
             {
               label: 'User Manual',
               to: '/docs/Starter',
+            },
+            {
+              label: 'PDF manual',
+              href: 'https://manuals.arianesline.com/ariane/pdf/Ariane-UserManual-latest.pdf',
             },
           ],
         },

@@ -32,6 +32,23 @@ jobs:
       - name: Build Docusaurus site
         run: npm run build
 
+      # Regenerate the always-current manual PDF from the freshly built site.
+      # It is written into build/ after the build, so it ships with the rsync
+      # below but never exists during `npm run build` — which is why the footer
+      # links to it by absolute URL rather than as an internal route.
+      - name: Generate latest-manual PDF
+        run: |
+          # docs-to-pdf drives puppeteer, which expects a Chromium in
+          # ~/.cache/puppeteer. npm no longer runs install scripts by default, so
+          # puppeteer's postinstall never downloads it and the launch fails with
+          # "Browser was not found at the configured executablePath". Install it
+          # explicitly, matching the puppeteer major that docs-to-pdf depends on.
+          npx --yes puppeteer@24 browsers install chrome
+          npx docusaurus serve --port 3123 --no-open &
+          for i in $(seq 1 30); do curl -sf http://localhost:3123/ariane/ >/dev/null && break; sleep 1; done
+          npx --yes docs-to-pdf@1.4.0 --initialDocURLs="http://localhost:3123/ariane/docs/Starter" --contentSelector="article" --paginationSelector="a.pagination-nav__link--next" --excludeSelectors=".theme-doc-breadcrumbs,.theme-edit-this-page,.pagination-nav,.theme-doc-toc-mobile" --coverTitle="Ariane — User Manual" --coverSub="Generated $(date -u +%F) — tracks the online manual" --puppeteerArgs="--no-sandbox,--disable-setuid-sandbox" --outputPDFFilename="build/pdf/Ariane-UserManual-latest.pdf"
+          kill %1 2>/dev/null || true
+
       # Ships to the VPS through the write-only rrsync jail (docs dir only).
       - name: Deploy to VPS
         env:
