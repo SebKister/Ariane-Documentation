@@ -72,11 +72,15 @@ freshly created worktree.
 
 ## Deployment
 
-The site is a plain static build, so any host works. The MNemo and JedEye manuals are published by a
-GitHub Actions workflow that runs `npm ci && npm run build` and then rsyncs `build/` to the
-documentation VPS using a `DOCS_DEPLOY_KEY` repository secret.
-
-An equivalent workflow for this manual is not committed yet — see `.github/workflows/` in the
-[MNemo documentation repository](https://github.com/SebKister/MNemoV2-Documentation) for the template
-to copy. Point its rsync target at `/ariane` on the docs host so the site is served from
+`.github/workflows/deploy-docs.yml` builds the site and rsyncs `build/` to the documentation VPS,
+mirroring the MNemo and JedEye pipelines. It runs on pushes to `main` and on manual dispatch from the
+Actions tab, and ships to `/ariane` on the host so the site is served from
 `https://manuals.arianesline.com/ariane/`.
+
+It requires the `DOCS_DEPLOY_KEY` repository secret — an SSH key restricted to the write-only rrsync
+jail scoped to the docs directory. Without that secret the deploy step fails and nothing is
+published.
+
+The MNemo repository additionally generates a downloadable PDF of the manual on each deploy, and has
+a "Cut manual version" workflow that freezes it as a versioned download. Neither is set up here; copy
+those steps from `SebKister/MNemoV2-Documentation` if a PDF of the Ariane manual is wanted.
