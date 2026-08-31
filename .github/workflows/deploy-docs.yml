@@ -44,6 +44,10 @@ jobs:
           # "Browser was not found at the configured executablePath". Install it
           # explicitly, matching the puppeteer major that docs-to-pdf depends on.
           npx --yes puppeteer@24 browsers install chrome
+          # puppeteer's page.pdf() does not create parent directories. MNemo gets
+          # build/pdf/ for free because it ships static/pdf/ with its frozen
+          # per-version PDFs; this manual has no such directory, so make it.
+          mkdir -p build/pdf
           npx docusaurus serve --port 3123 --no-open &
           for i in $(seq 1 30); do curl -sf http://localhost:3123/ariane/ >/dev/null && break; sleep 1; done
           npx --yes docs-to-pdf@1.4.0 --initialDocURLs="http://localhost:3123/ariane/docs/Starter" --contentSelector="article" --paginationSelector="a.pagination-nav__link--next" --excludeSelectors=".theme-doc-breadcrumbs,.theme-edit-this-page,.pagination-nav,.theme-doc-toc-mobile" --coverTitle="Ariane — User Manual" --coverSub="Generated $(date -u +%F) — tracks the online manual" --puppeteerArgs="--no-sandbox,--disable-setuid-sandbox" --outputPDFFilename="build/pdf/Ariane-UserManual-latest.pdf"
