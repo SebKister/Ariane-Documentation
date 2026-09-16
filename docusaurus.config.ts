@@ -115,6 +115,12 @@ const config: Config = {
               label: 'PDF manual',
               href: 'https://manuals.arianesline.com/ariane/pdf/Ariane-UserManual-latest.pdf',
             },
+            {
+              // Hand-made translation shipped from static/pdf/, not regenerated
+              // with the site, so it tracks the edition it was translated from.
+              label: 'PDF-Handbuch (Deutsch)',
+              href: 'https://manuals.arianesline.com/ariane/pdf/Ariane-Benutzerhandbuch-DE.pdf',
+            },
           ],
         },
         {
