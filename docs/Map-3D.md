@@ -70,6 +70,11 @@ the stations appear for as long as you hold the key.
 LIDAR data sets attached from the [map action pane](Station-Actions.md) are displayed here.
 Right-clicking a LIDAR point removes that record.
 
+In the side panel's **LIDAR** options, **SHOW POINTS** hides or shows the marker drawn at each
+reading, so that the wall built from them can be seen on its own. **SHOW WALL** and **RAYS** are
+independent of it. While the points are hidden, the LIDAR deletion tool is turned off, as it
+picks the points the view draws.
+
 ## Performance
 
 If the 3D view is slow, lower the **DETAILS** level, switch from `FILL` to `WIRE`, turn off **WALL**,
