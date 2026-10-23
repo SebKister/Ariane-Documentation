@@ -72,8 +72,12 @@ Right-clicking a LIDAR point removes that record.
 
 In the side panel's **LIDAR** options, **SHOW POINTS** hides or shows the marker drawn at each
 reading, so that the wall built from them can be seen on its own. **SHOW WALL** and **RAYS** are
-independent of it. While the points are hidden, the LIDAR deletion tool is turned off, as it
-picks the points the view draws.
+independent of it. **SIZE** sets the size of the points and the rays, and is greyed out while
+neither is shown.
+
+LIDAR points are deleted where the view shows them. While it shows none, because **SHOW POINTS**
+is unchecked or **LIDAR** is off, right-clicking removes nothing and the LIDAR deletion tool is
+turned off: its tooltip says how to show the points again.
 
 ## Performance
 
